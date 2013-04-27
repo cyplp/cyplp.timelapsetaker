@@ -8,6 +8,7 @@ class Worker(Thread):
     """
     def __init__(self):
         super(Worker, self).__init__()
+        self.go= False
 
     def newJob(self, interval, filenameTemplate, ):
         self._interval = interval
@@ -16,13 +17,12 @@ class Worker(Thread):
 
         self.go = True
 
-#        self.start()
-
     def run(self):
         gphoto2 = GPhoto2()
         gphoto2.initCamera()
         while self.go:
-            gphoto2.takePicture('tmp/plop_%06d.nef' % self._cpt)
+            gphoto2.takePicture(self._filenameTemplate
+                                % self._cpt)
             self._cpt += 1
             time.sleep(self._interval)
 

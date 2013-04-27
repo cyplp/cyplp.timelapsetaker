@@ -1,13 +1,35 @@
 from worker import Worker
 
-def main():
-    worker_ = Worker()
-    worker_.newJob(2, "tmp/test_%06d.nef")
-    worker_.start()
-    import time
+import zmq
+import time
 
-    time.sleep(8)
-    print "here"
-    worker_.go = False
+def main():
+
+    context = zmq.Context()
+
+    orderReceiver = context.socket(zmq.REP)
+    orderReceiver.bind("tcp://127.0.0.1:5559")
+#    orderReceiver.setsockopt(zmq.SUBSCRIBE, "")
+
+
+    worker_ = Worker()
+    while True:
+        print "here"
+
+        order = orderReceiver.recv_json()
+        print order
+        if order['command'] == 'stop':
+            worker_.go = False
+            orderReceiver.send_json('ack')
+            worker_ = Worker()
+            continue
+
+        elif order['command'] == 'start':
+            if worker_.go:
+                orderReceiver.send_json('already running')
+                continue
+            worker_.newJob(order['interval'], order['filename'])
+            worker_.start()
+            orderReceiver.send_json('ack')
 
 

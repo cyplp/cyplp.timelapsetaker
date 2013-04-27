@@ -29,6 +29,8 @@ setup(name='cyplp.timelapsetaker',
       zip_safe=False,
       install_requires=[
           'setuptools',
+          'cyplp.gphoto2',
+          'pyzmq',
 
           # -*- Extra requirements: -*-
       ],
