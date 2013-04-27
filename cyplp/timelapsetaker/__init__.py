@@ -28,7 +28,7 @@ def main():
             if worker_.go:
                 orderReceiver.send_json('already running')
                 continue
-            worker_.newJob(order['interval'], order['filename'])
+            worker_.newJob(order['interval'], order['filename'], order['batch'])
             worker_.start()
             orderReceiver.send_json('ack')
 

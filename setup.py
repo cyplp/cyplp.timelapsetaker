@@ -31,6 +31,7 @@ setup(name='cyplp.timelapsetaker',
           'setuptools',
           'cyplp.gphoto2',
           'pyzmq',
+          'couchdbkit'
 
           # -*- Extra requirements: -*-
       ],
