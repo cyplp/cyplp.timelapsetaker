@@ -39,7 +39,7 @@ class Worker(Thread):
             sf = StorageFile(batch=self._batch, filename=filename)
             sf.save()
             with open(filename, 'rb') as toStore:
-                sf.put_attachment(toStore, 'doc')
+                sf.put_attachment(toStore, 'doc.jpg')
 
             os.remove(filename)
             self._cpt += 1
